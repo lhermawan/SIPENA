@@ -1,834 +1,416 @@
-# \# SIM-SPJ
+# SIM-SPJ
+
+### Sistem Informasi Surat Pertanggungjawaban
+
+SIM-SPJ adalah aplikasi berbasis **Laravel** dan **Filament** yang dirancang untuk membantu proses penyusunan, pencatatan, pengelolaan, serta pengarsipan Surat Pertanggungjawaban (SPJ) secara digital.
+
+Aplikasi ini bertujuan mengurangi pekerjaan berulang, meminimalkan kesalahan perhitungan, mempercepat pembuatan dokumen, serta menyediakan jejak audit (Audit Log) terhadap seluruh aktivitas pengguna.
+
+---
+
+# Tujuan
+
+* Digitalisasi proses administrasi SPJ.
+* Mengurangi penggunaan Microsoft Excel dan Word secara terpisah.
+* Menghindari kesalahan perhitungan nominal.
+* Mempermudah pencarian dokumen.
+* Menyediakan arsip digital yang terstruktur.
+* Menyediakan audit trail setiap perubahan data.
+* Mendukung transparansi dan akuntabilitas pengelolaan keuangan.
+
+---
+
+# Teknologi
+
+* PHP 8.3+
+* Laravel 12
+* Filament 4
+* MySQL / MariaDB
+* Spatie Permission
+* Spatie Activity Log
+* Laravel Media Library
+* DomPDF
+* Laravel Excel
 
-# 
+---
 
-# \### Sistem Informasi Surat Pertanggungjawaban
+# Fitur Utama
 
-# 
+## Dashboard
 
-# SIM-SPJ adalah aplikasi berbasis \*\*Laravel\*\* dan \*\*Filament\*\* yang dirancang untuk membantu proses penyusunan, pencatatan, pengelolaan, serta pengarsipan Surat Pertanggungjawaban (SPJ) secara digital.
+Dashboard memberikan informasi secara real-time mengenai kondisi administrasi SPJ.
 
-# 
+Fitur:
 
-# Aplikasi ini bertujuan mengurangi pekerjaan berulang, meminimalkan kesalahan perhitungan, mempercepat pembuatan dokumen, serta menyediakan jejak audit (Audit Log) terhadap seluruh aktivitas pengguna.
+* Total SPJ
+* SPJ Draft
+* SPJ Diproses
+* SPJ Disetujui
+* Total Belanja
+* Grafik Realisasi Bulanan
+* Aktivitas Terbaru
+* Statistik Pengguna
 
-# 
+---
 
-# \---
+# Struktur Modul
 
-# 
+```
+Dashboard
+│
+├── Master
+│   ├── Pegawai
+│   ├── Penandatangan
+│   ├── Rekanan
+│   ├── Program
+│   ├── Kegiatan
+│   ├── Sub Kegiatan
+│   ├── Rekening Belanja
+│   └── Satuan
+│
+├── Transaksi
+│   ├── SPJ
+│   ├── Bukti Transaksi
+│   └── Arsip
+│
+├── Laporan
+│   ├── Rekap SPJ
+│   ├── Realisasi Anggaran
+│   ├── Rekap Rekanan
+│   └── Rekap Pajak
+│
+├── Audit Log
+│
+└── Pengaturan
+    ├── Penandatangan Aktif
+    ├── Template Dokumen
+    ├── Nomor Otomatis
+    └── Hak Akses
+```
 
-# \# Tujuan
+---
 
-# 
+# Modul Master
 
-# \* Digitalisasi proses administrasi SPJ.
+## Pegawai
 
-# \* Mengurangi penggunaan Microsoft Excel dan Word secara terpisah.
+Digunakan sebagai referensi seluruh ASN maupun pegawai yang terlibat dalam administrasi SPJ.
 
-# \* Menghindari kesalahan perhitungan nominal.
+Data yang disimpan:
 
-# \* Mempermudah pencarian dokumen.
+* Nama
+* NIP
+* Pangkat
+* Golongan
+* Jabatan
+* Unit Kerja
+* Status Aktif
 
-# \* Menyediakan arsip digital yang terstruktur.
+---
 
-# \* Menyediakan audit trail setiap perubahan data.
+## Penandatangan
 
-# \* Mendukung transparansi dan akuntabilitas pengelolaan keuangan.
+Menyimpan seluruh pejabat yang dapat menjadi penandatangan dokumen.
 
-# 
+Contoh:
 
-# \---
+* PA/KPA
+* PPK
+* PPTK
+* Bendahara
+* Pengguna Anggaran
 
-# 
+Saat membuat SPJ cukup memilih nama pejabat, maka seluruh dokumen otomatis menggunakan data tersebut.
 
-# \# Teknologi
+---
 
-# 
+## Rekanan
 
-# \* PHP 8.3+
+Master data penyedia barang maupun jasa.
 
-# \* Laravel 12
+Data:
 
-# \* Filament 4
+* Nama
+* NPWP
+* Alamat
+* Nomor Rekening
+* Nama Bank
+* Kontak
 
-# \* MySQL / MariaDB
+---
 
-# \* Spatie Permission
+## Program
 
-# \* Spatie Activity Log
+Master Program sesuai DPA.
 
-# \* Laravel Media Library
+---
 
-# \* DomPDF
+## Kegiatan
 
-# \* Laravel Excel
+Master kegiatan yang berada di bawah Program.
 
-# 
+---
 
-# \---
+## Sub Kegiatan
 
-# 
+Master Sub Kegiatan sesuai struktur anggaran.
 
-# \# Fitur Utama
+---
 
-# 
+## Rekening Belanja
 
-# \## Dashboard
+Berisi kode rekening sesuai standar pemerintah.
 
-# 
+Contoh:
 
-# Dashboard memberikan informasi secara real-time mengenai kondisi administrasi SPJ.
+* Belanja ATK
+* Belanja Makan Minum
+* Belanja Perjalanan Dinas
 
-# 
+---
 
-# Fitur:
+## Satuan
 
-# 
+Digunakan pada detail transaksi.
 
-# \* Total SPJ
+Contoh:
 
-# \* SPJ Draft
+* Paket
+* Unit
+* Orang
+* Hari
+* Bulan
+* Lembar
 
-# \* SPJ Diproses
+---
 
-# \* SPJ Disetujui
+# Modul Transaksi
 
-# \* Total Belanja
+## SPJ
 
-# \* Grafik Realisasi Bulanan
+Merupakan modul utama aplikasi.
 
-# \* Aktivitas Terbaru
+Data Header:
 
-# \* Statistik Pengguna
+* Nomor SPJ
+* Tanggal
+* Program
+* Kegiatan
+* Sub Kegiatan
+* Rekening
+* PPTK
+* PPK
+* Bendahara
+* PA/KPA
 
-# 
+Detail Item:
 
-# \---
+* Uraian
+* Volume
+* Satuan
+* Harga Satuan
+* Total
 
-# 
+Fitur:
 
-# \# Struktur Modul
+* Perhitungan otomatis
+* Terbilang otomatis
+* Upload lampiran
+* Generate PDF
+* Generate Word
+* Draft
+* Finalisasi
 
-# 
+---
 
-# ```
+## Bukti Transaksi
 
-# Dashboard
+Lampiran yang dapat disimpan:
 
-# │
+* Invoice
+* Nota
+* Kwitansi
+* Foto
+* Dokumen PDF
+* Berita Acara
 
-# ├── Master
+---
 
-# │   ├── Pegawai
+## Arsip
 
-# │   ├── Penandatangan
+Seluruh SPJ yang telah selesai akan tersimpan sebagai arsip digital dan dapat dicari berdasarkan:
 
-# │   ├── Rekanan
+* Tahun
+* Bulan
+* Nomor
+* Program
+* Kegiatan
+* Rekanan
 
-# │   ├── Program
+---
 
-# │   ├── Kegiatan
+# Modul Laporan
 
-# │   ├── Sub Kegiatan
+## Rekap SPJ
 
-# │   ├── Rekening Belanja
+Menampilkan seluruh SPJ berdasarkan periode tertentu.
 
-# │   └── Satuan
+---
 
-# │
+## Realisasi Anggaran
 
-# ├── Transaksi
+Menampilkan jumlah realisasi belanja berdasarkan Program, Kegiatan, maupun Sub Kegiatan.
 
-# │   ├── SPJ
+---
 
-# │   ├── Bukti Transaksi
+## Rekap Rekanan
 
-# │   └── Arsip
+Menampilkan histori transaksi setiap rekanan.
 
-# │
+---
 
-# ├── Laporan
+## Rekap Pajak
 
-# │   ├── Rekap SPJ
+Menampilkan total pajak yang dipotong berdasarkan periode.
 
-# │   ├── Realisasi Anggaran
+---
 
-# │   ├── Rekap Rekanan
+# Audit Log
 
-# │   └── Rekap Pajak
+Seluruh aktivitas pengguna dicatat.
 
-# │
+Contoh aktivitas:
 
-# ├── Audit Log
+* Login
+* Logout
+* Menambah Data
+* Mengubah Data
+* Menghapus Data
+* Mengunduh Dokumen
+* Mencetak Dokumen
+* Mengubah Status SPJ
 
-# │
+Audit Log menyimpan:
 
-# └── Pengaturan
+* User
+* Waktu
+* IP Address
+* Browser
+* Aktivitas
+* Data Sebelum
+* Data Sesudah
 
-# &#x20;   ├── Penandatangan Aktif
+---
 
-# &#x20;   ├── Template Dokumen
+# Pengaturan
 
-# &#x20;   ├── Nomor Otomatis
+## Penandatangan Aktif
 
-# &#x20;   └── Hak Akses
+Menentukan pejabat aktif yang digunakan sebagai default.
 
-# ```
+---
 
-# 
+## Template Dokumen
 
-# \---
+Mengelola template:
 
-# 
+* Kwitansi
+* Surat Pernyataan
+* Berita Acara
+* Daftar Pengeluaran
+* Lampiran SPJ
 
-# \# Modul Master
+---
 
-# 
+## Nomor Otomatis
 
-# \## Pegawai
+Format nomor dokumen dapat disesuaikan.
 
-# 
+Contoh:
 
-# Digunakan sebagai referensi seluruh ASN maupun pegawai yang terlibat dalam administrasi SPJ.
+```
+001/SPJ/BPKAD/VII/2026
+```
 
-# 
+---
 
-# Data yang disimpan:
+## Hak Akses
 
-# 
+Role bawaan:
 
-# \* Nama
+* Administrator
+* Bendahara
+* PPTK
+* PPK
+* PA/KPA
+* Auditor
 
-# \* NIP
+Setiap role memiliki permission yang dapat diatur secara fleksibel.
 
-# \* Pangkat
+---
 
-# \* Golongan
+# Workflow
 
-# \* Jabatan
+```
+Draft
 
-# \* Unit Kerja
+↓
 
-# \* Status Aktif
+Verifikasi PPTK
 
-# 
+↓
 
-# \---
+Verifikasi Bendahara
 
-# 
+↓
 
-# \## Penandatangan
+Persetujuan PA/KPA
 
-# 
+↓
 
-# Menyimpan seluruh pejabat yang dapat menjadi penandatangan dokumen.
+Final
 
-# 
+↓
 
-# Contoh:
+Arsip
+```
 
-# 
+---
 
-# \* PA/KPA
+# Keunggulan
 
-# \* PPK
+* Input sekali, seluruh dokumen otomatis terbentuk.
+* Perhitungan nominal otomatis.
+* Terbilang otomatis.
+* Arsip digital.
+* Audit Trail lengkap.
+* Hak akses berbasis Role.
+* Template dokumen dapat disesuaikan.
+* Siap dikembangkan untuk integrasi dengan sistem pemerintah lainnya.
 
-# \* PPTK
+---
 
-# \* Bendahara
+# Roadmap
 
-# \* Pengguna Anggaran
+## Versi 1.0
 
-# 
+* Master Data
+* SPJ
+* Lampiran
+* PDF
+* Audit Log
 
-# Saat membuat SPJ cukup memilih nama pejabat, maka seluruh dokumen otomatis menggunakan data tersebut.
+## Versi 1.5
 
-# 
+* Tanda Tangan Elektronik
+* QR Code Verifikasi
+* Approval Workflow
+* Import Excel
 
-# \---
+## Versi 2.0
 
-# 
-
-# \## Rekanan
-
-# 
-
-# Master data penyedia barang maupun jasa.
-
-# 
-
-# Data:
-
-# 
-
-# \* Nama
-
-# \* NPWP
-
-# \* Alamat
-
-# \* Nomor Rekening
-
-# \* Nama Bank
-
-# \* Kontak
-
-# 
-
-# \---
-
-# 
-
-# \## Program
-
-# 
-
-# Master Program sesuai DPA.
-
-# 
-
-# \---
-
-# 
-
-# \## Kegiatan
-
-# 
-
-# Master kegiatan yang berada di bawah Program.
-
-# 
-
-# \---
-
-# 
-
-# \## Sub Kegiatan
-
-# 
-
-# Master Sub Kegiatan sesuai struktur anggaran.
-
-# 
-
-# \---
-
-# 
-
-# \## Rekening Belanja
-
-# 
-
-# Berisi kode rekening sesuai standar pemerintah.
-
-# 
-
-# Contoh:
-
-# 
-
-# \* Belanja ATK
-
-# \* Belanja Makan Minum
-
-# \* Belanja Perjalanan Dinas
-
-# 
-
-# \---
-
-# 
-
-# \## Satuan
-
-# 
-
-# Digunakan pada detail transaksi.
-
-# 
-
-# Contoh:
-
-# 
-
-# \* Paket
-
-# \* Unit
-
-# \* Orang
-
-# \* Hari
-
-# \* Bulan
-
-# \* Lembar
-
-# 
-
-# \---
-
-# 
-
-# \# Modul Transaksi
-
-# 
-
-# \## SPJ
-
-# 
-
-# Merupakan modul utama aplikasi.
-
-# 
-
-# Data Header:
-
-# 
-
-# \* Nomor SPJ
-
-# \* Tanggal
-
-# \* Program
-
-# \* Kegiatan
-
-# \* Sub Kegiatan
-
-# \* Rekening
-
-# \* PPTK
-
-# \* PPK
-
-# \* Bendahara
-
-# \* PA/KPA
-
-# 
-
-# Detail Item:
-
-# 
-
-# \* Uraian
-
-# \* Volume
-
-# \* Satuan
-
-# \* Harga Satuan
-
-# \* Total
-
-# 
-
-# Fitur:
-
-# 
-
-# \* Perhitungan otomatis
-
-# \* Terbilang otomatis
-
-# \* Upload lampiran
-
-# \* Generate PDF
-
-# \* Generate Word
-
-# \* Draft
-
-# \* Finalisasi
-
-# 
-
-# \---
-
-# 
-
-# \## Bukti Transaksi
-
-# 
-
-# Lampiran yang dapat disimpan:
-
-# 
-
-# \* Invoice
-
-# \* Nota
-
-# \* Kwitansi
-
-# \* Foto
-
-# \* Dokumen PDF
-
-# \* Berita Acara
-
-# 
-
-# \---
-
-# 
-
-# \## Arsip
-
-# 
-
-# Seluruh SPJ yang telah selesai akan tersimpan sebagai arsip digital dan dapat dicari berdasarkan:
-
-# 
-
-# \* Tahun
-
-# \* Bulan
-
-# \* Nomor
-
-# \* Program
-
-# \* Kegiatan
-
-# \* Rekanan
-
-# 
-
-# \---
-
-# 
-
-# \# Modul Laporan
-
-# 
-
-# \## Rekap SPJ
-
-# 
-
-# Menampilkan seluruh SPJ berdasarkan periode tertentu.
-
-# 
-
-# \---
-
-# 
-
-# \## Realisasi Anggaran
-
-# 
-
-# Menampilkan jumlah realisasi belanja berdasarkan Program, Kegiatan, maupun Sub Kegiatan.
-
-# 
-
-# \---
-
-# 
-
-# \## Rekap Rekanan
-
-# 
-
-# Menampilkan histori transaksi setiap rekanan.
-
-# 
-
-# \---
-
-# 
-
-# \## Rekap Pajak
-
-# 
-
-# Menampilkan total pajak yang dipotong berdasarkan periode.
-
-# 
-
-# \---
-
-# 
-
-# \# Audit Log
-
-# 
-
-# Seluruh aktivitas pengguna dicatat.
-
-# 
-
-# Contoh aktivitas:
-
-# 
-
-# \* Login
-
-# \* Logout
-
-# \* Menambah Data
-
-# \* Mengubah Data
-
-# \* Menghapus Data
-
-# \* Mengunduh Dokumen
-
-# \* Mencetak Dokumen
-
-# \* Mengubah Status SPJ
-
-# 
-
-# Audit Log menyimpan:
-
-# 
-
-# \* User
-
-# \* Waktu
-
-# \* IP Address
-
-# \* Browser
-
-# \* Aktivitas
-
-# \* Data Sebelum
-
-# \* Data Sesudah
-
-# 
-
-# \---
-
-# 
-
-# \# Pengaturan
-
-# 
-
-# \## Penandatangan Aktif
-
-# 
-
-# Menentukan pejabat aktif yang digunakan sebagai default.
-
-# 
-
-# \---
-
-# 
-
-# \## Template Dokumen
-
-# 
-
-# Mengelola template:
-
-# 
-
-# \* Kwitansi
-
-# \* Surat Pernyataan
-
-# \* Berita Acara
-
-# \* Daftar Pengeluaran
-
-# \* Lampiran SPJ
-
-# 
-
-# \---
-
-# 
-
-# \## Nomor Otomatis
-
-# 
-
-# Format nomor dokumen dapat disesuaikan.
-
-# 
-
-# Contoh:
-
-# 
-
-# ```
-
-# 001/SPJ/BPKAD/VII/2026
-
-# ```
-
-# 
-
-# \---
-
-# 
-
-# \## Hak Akses
-
-# 
-
-# Role bawaan:
-
-# 
-
-# \* Administrator
-
-# \* Bendahara
-
-# \* PPTK
-
-# \* PPK
-
-# \* PA/KPA
-
-# \* Auditor
-
-# 
-
-# Setiap role memiliki permission yang dapat diatur secara fleksibel.
-
-# 
-
-# \---
-
-# 
-
-# \# Workflow
-
-# 
-
-# ```
-
-# Draft
-
-# 
-
-# ↓
-
-# 
-
-# Verifikasi PPTK
-
-# 
-
-# ↓
-
-# 
-
-# Verifikasi Bendahara
-
-# 
-
-# ↓
-
-# 
-
-# Persetujuan PA/KPA
-
-# 
-
-# ↓
-
-# 
-
-# Final
-
-# 
-
-# ↓
-
-# 
-
-# Arsip
-
-# ```
-
-# 
-
-# \---
-
-# 
-
-# \# Keunggulan
-
-# 
-
-# \* Input sekali, seluruh dokumen otomatis terbentuk.
-
-# \* Perhitungan nominal otomatis.
-
-# \* Terbilang otomatis.
-
-# \* Arsip digital.
-
-# \* Audit Trail lengkap.
-
-# \* Hak akses berbasis Role.
-
-# \* Template dokumen dapat disesuaikan.
-
-# \* Siap dikembangkan untuk integrasi dengan sistem pemerintah lainnya.
-
-# 
-
-# \---
-
-# 
-
-# \# Roadmap
-
-# 
-
-# \## Versi 1.0
-
-# 
-
-# \* Master Data
-
-# \* SPJ
-
-# \* Lampiran
-
-# \* PDF
-
-# \* Audit Log
-
-# 
-
-# \## Versi 1.5
-
-# 
-
-# \* Tanda Tangan Elektronik
-
-# \* QR Code Verifikasi
-
-# \* Approval Workflow
-
-# \* Import Excel
-
-# 
-
-# \## Versi 2.0
-
-# 
-
-# \* Integrasi SIPD
-
-# \* Integrasi e-Budgeting
-
-# \* Dashboard Realisasi Anggaran
-
-# \* API Mobile
-
-# \* Notifikasi WhatsApp dan Email
-
-
-
+* Integrasi SIPD
+* Integrasi e-Budgeting
+* Dashboard Realisasi Anggaran
+* API Mobile
+* Notifikasi WhatsApp dan Email

@@ -18,6 +18,10 @@ class Spj extends BaseModel implements HasMedia
     public function kegiatan(): BelongsTo { return $this->belongsTo(Kegiatan::class); }
     public function subKegiatan(): BelongsTo { return $this->belongsTo(SubKegiatan::class); }
     public function rekeningBelanja(): BelongsTo { return $this->belongsTo(RekeningBelanja::class); }
+    public function pptk(): BelongsTo { return $this->belongsTo(Penandatangan::class, 'pptk_id'); }
+    public function ppk(): BelongsTo { return $this->belongsTo(Penandatangan::class, 'ppk_id'); }
+    public function bendahara(): BelongsTo { return $this->belongsTo(Penandatangan::class, 'bendahara_id'); }
+    public function paKpa(): BelongsTo { return $this->belongsTo(Penandatangan::class, 'pa_kpa_id'); }
     public function items(): HasMany { return $this->hasMany(SpjItem::class); }
     public function buktiTransaksis(): HasMany { return $this->hasMany(BuktiTransaksi::class); }
 }

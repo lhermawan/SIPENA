@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Satuan;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +19,15 @@ class DatabaseSeeder extends Seeder
         foreach (['Paket', 'Unit', 'Orang', 'Hari', 'Bulan', 'Lembar'] as $nama) {
             Satuan::firstOrCreate(['nama' => $nama]);
         }
+
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@sipena.local'],
+            [
+                'name' => 'Administrator SIPENA',
+                'password' => Hash::make('password'),
+            ],
+        );
+
+        $admin->assignRole('Administrator');
     }
 }

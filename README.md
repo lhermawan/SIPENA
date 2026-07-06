@@ -1,8 +1,8 @@
-# SIM-SPJ
+# SIPENA
 
-### Sistem Informasi Surat Pertanggungjawaban
+### Sistem Informasi Surat Pertanggungjawaban Anggaran
 
-SIM-SPJ adalah aplikasi berbasis **Laravel** dan **Filament** yang dirancang untuk membantu proses penyusunan, pencatatan, pengelolaan, serta pengarsipan Surat Pertanggungjawaban (SPJ) secara digital.
+SIPENA adalah aplikasi berbasis **Laravel** dan **Filament** yang dirancang untuk membantu proses penyusunan, pencatatan, pengelolaan, serta pengarsipan Surat Pertanggungjawaban (SPJ) secara digital.
 
 Aplikasi ini bertujuan mengurangi pekerjaan berulang, meminimalkan kesalahan perhitungan, mempercepat pembuatan dokumen, serta menyediakan jejak audit (Audit Log) terhadap seluruh aktivitas pengguna.
 

@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Transaksi;
 
+use App\Filament\Resources\Concerns\TransactionResourceAccess;
 use App\Filament\Resources\Transaksi\BuktiTransaksiResource\Pages;
 use App\Models\BuktiTransaksi;
+use App\Support\ResourceAccess;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -18,9 +20,12 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class BuktiTransaksiResource extends Resource
 {
+    use TransactionResourceAccess;
+
     protected static ?string $model = BuktiTransaksi::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-document-text';
@@ -76,5 +81,19 @@ class BuktiTransaksiResource extends Resource
             'create' => Pages\CreateBuktiTransaksi::route('/create'),
             'edit' => Pages\EditBuktiTransaksi::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = ResourceAccess::user();
+
+        if ($user?->hasRole('Bidang') && ! ResourceAccess::isAdmin($user)) {
+            $bidangIds = $user->bidangs()->pluck('bidangs.id');
+
+            $query->whereHas('spj', fn (Builder $spjQuery): Builder => $spjQuery->whereIn('bidang_id', $bidangIds));
+        }
+
+        return $query;
     }
 }

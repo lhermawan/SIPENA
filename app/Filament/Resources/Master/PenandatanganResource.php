@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Concerns\AdminOnlyResourceAccess;
 use App\Filament\Resources\Master\PenandatanganResource\Pages;
 use App\Models\Penandatangan;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class PenandatanganResource extends Resource
 {
+    use AdminOnlyResourceAccess;
+
     protected static ?string $model = Penandatangan::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-pencil-square';

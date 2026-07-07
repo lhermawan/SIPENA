@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Concerns\AdminOnlyResourceAccess;
 use App\Filament\Resources\Master\KegiatanResource\Pages;
 use App\Models\Kegiatan;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class KegiatanResource extends Resource
 {
+    use AdminOnlyResourceAccess;
+
     protected static ?string $model = Kegiatan::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-calendar-days';

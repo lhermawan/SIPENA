@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Concerns\AdminOnlyResourceAccess;
 use App\Filament\Resources\Master\RekeningBelanjaResource\Pages;
 use App\Models\RekeningBelanja;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class RekeningBelanjaResource extends Resource
 {
+    use AdminOnlyResourceAccess;
+
     protected static ?string $model = RekeningBelanja::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-banknotes';

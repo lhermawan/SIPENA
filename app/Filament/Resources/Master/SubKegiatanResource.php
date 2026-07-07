@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Concerns\AdminOnlyResourceAccess;
 use App\Filament\Resources\Master\SubKegiatanResource\Pages;
 use App\Models\SubKegiatan;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class SubKegiatanResource extends Resource
 {
+    use AdminOnlyResourceAccess;
+
     protected static ?string $model = SubKegiatan::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-queue-list';

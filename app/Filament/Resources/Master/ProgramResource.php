@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Concerns\AdminOnlyResourceAccess;
 use App\Filament\Resources\Master\ProgramResource\Pages;
 use App\Models\Program;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class ProgramResource extends Resource
 {
+    use AdminOnlyResourceAccess;
+
     protected static ?string $model = Program::class;
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clipboard-document-list';

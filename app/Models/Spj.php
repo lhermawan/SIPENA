@@ -14,6 +14,7 @@ class Spj extends BaseModel implements HasMedia
 
     protected $casts = ['tanggal' => 'date', 'status' => SpjStatus::class, 'total_belanja' => 'decimal:2'];
 
+    public function bidang(): BelongsTo { return $this->belongsTo(Bidang::class); }
     public function program(): BelongsTo { return $this->belongsTo(Program::class); }
     public function kegiatan(): BelongsTo { return $this->belongsTo(Kegiatan::class); }
     public function subKegiatan(): BelongsTo { return $this->belongsTo(SubKegiatan::class); }
